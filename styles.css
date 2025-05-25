@@ -1,0 +1,291 @@
+body {
+    font-family: 'Footlight MT Light'; /* Custom font for the game */
+    display: flex;
+    justify-content: center; /* Horizontally centers content */
+    align-items: center; /* Vertically centers content */
+    min-height: 100vh; /* Ensures body takes full viewport height */
+    background-image: url(bg.png); /* Background image for the game */
+    background-size: cover; /* Covers the entire background area */
+    background-position: center; /* Centers the background image */
+    margin: 0;
+    padding: 10px; /* Adds padding for small screens */
+}
+
+/* Styling for the main heading of the game */
+.heading {
+    font-family:'Elephant'; /* Custom font for the heading */
+    font-size: clamp(2rem, 6vw, 4.5rem); /* Responsive font size */
+}
+
+/* Container for the entire game (heading, controls, grid) */
+.game-container {
+    text-align: center; /* Centers text content within the container */
+    max-width: 500px; /* Maximum width of the game container */
+    width: 100%; /* Allows container to shrink on smaller screens */
+    padding: 20px;
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+}
+
+/* Styles for the controls section (buttons, dropdowns, stats) */
+.controls {
+    display: flex;
+    flex-direction: column; /* Stacks items vertically */
+    align-items: center; /* Centers items horizontally */
+    margin-bottom: 15px;
+    gap: 30px; /* Space between flex items */
+}
+
+/* General styling for divs within controls */
+.controls div {
+    margin: 0px;
+    font-weight: bold;
+}
+
+/* Styles for the top row of controls (buttons and selects) */
+.top-controls {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap to the next line */
+    justify-content: center; /* Centers items horizontally */
+    gap: 10px; /* Space between items */
+}
+
+/* Styles for the bottom row of controls (Moves, Time, Score) */
+.bottom-controls {
+    display: flex;
+    gap: 30px; /* Space between items */
+    justify-content: center; /* Centers items horizontally */
+    font-weight: bold;
+    font-size: clamp(1rem, 4vw, 1.5rem); /* Responsive font size */
+}
+
+/* General styling for buttons and select dropdowns */
+.controls button,
+.controls select {
+    flex: 1 1 auto; /* Allows items to grow and shrink */
+    min-width: 120px; /* Minimum width for responsiveness */
+    max-width: 100%;
+    padding: 10px 16px;
+    font-family: 'Footlight MT Light';
+    font-size: 1.2em;
+    border: 2px solid black;
+    border-radius: 8px;
+    cursor: pointer; /* Indicates clickable element */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions for hover/active states */
+}
+
+/* Styling for options within the select dropdowns */
+.controls select option {
+    background-color: white;
+    color: black;
+}
+
+/* Background color for select dropdowns */
+.controls select {
+    background-color: rgb(255, 245, 251);
+}
+
+/* Background color for buttons */
+.controls button {
+    background-color: rgb(249, 221, 238);
+}
+
+/* Hover effects for buttons and selects */
+.controls button:hover,
+.controls select:hover {
+    transform: scale(1.05); /* Slightly enlarges on hover */
+}
+
+/* Active (clicked) effects for buttons and selects */
+.controls button:active,
+.controls select:active {
+    transform: scale(0.95); /* Slightly shrinks on click */
+}
+
+/* Styling for the main card grid */
+.grid {
+    display: grid;
+    gap: 10px; /* Space between cards */
+    justify-content: center; /* Centers the grid horizontally */
+}
+
+/* Grid layout for easy difficulty (4 columns) */
+.grid.easy {
+    grid-template-columns: repeat(4, minmax(40px, 1fr)); /* Creates a 4x4 grid */
+}
+
+/* Grid layout for hard difficulty (6 columns) */
+.grid.hard {
+    grid-template-columns: repeat(6, minmax(30px, 1fr)); /* Creates a 6x6 grid */
+}
+
+/* Styling for individual memory cards */
+.card {
+    width: 100%;
+    aspect-ratio: 1/1; /* Ensures cards are square */
+    cursor: pointer;
+    position: relative;
+    transform-style: preserve-3d; /* Enables 3D transformations for flipping */
+    border: 2px solid black;
+    border-radius: 12px;
+    transition: transform 0.5s; /* Smooth flip animation */
+    user-select: none; /* Prevents text selection on card tap */
+}
+
+/* Style for when a card is flipped */
+.card.flip {
+    transform: rotateY(180deg); /* Flips the card on its Y-axis */
+}
+
+/* Common styles for both front and back faces of the card */
+.card-inner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    backface-visibility: hidden; /* Hides the back of the element when facing the user */
+}
+
+/* Styling for the front face of the card (the hidden side) */
+.card-front {
+    background-image: url(card_back.png); /* Image for the card's front */
+    background-size: contain; /* Ensures the image fits within the card */
+}
+
+/* Styling for the back face of the card (the emoji side) */
+.card-back {
+    display: flex;
+    align-items: center; /* Centers content vertically */
+    justify-content: center; /* Centers content horizontally */
+    background-color: rgb(255, 245, 251);
+    border-radius: 12px;
+    transform: rotateY(180deg); /* Initially rotated to be hidden behind the front */
+}
+
+/* Font size for emojis on easy difficulty cards */
+.grid.easy .card-back {
+    font-size: 3em;
+}
+
+/* Font size for emojis on hard difficulty cards */
+.grid.hard .card-back {
+    font-size: 2em;
+}
+
+/* Keyframe animation for the "flyIn" effect of the congratulatory message */
+@keyframes flyIn {
+    0% {
+        transform: translate(-50%, -200%); /* Starts far above center */
+        font-size: 1em;
+        opacity: 0; /* Starts invisible */
+    }
+    100% {
+        transform: translate(-50%, -50%); /* Ends at center */
+        font-size: 3em;
+        opacity: 1; /* Fully visible */
+    }
+}
+
+/* Modal background (dark overlay behind the instructions) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stays in place relative to the viewport */
+    z-index: 1000; /* Ensures it's on top of other content */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enables scrolling if content overflows */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+}
+
+/* Content box of the modal */
+.modal-content {
+    width: 80%;
+    max-width: 400px;
+    background-color: rgb(235, 232, 223);
+    margin: 10% auto; /* Centers the modal vertically and horizontally */
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 10px;
+    text-align: left;
+    animation: fadeIn 0.4s; /* Animation for modal appearance */
+}
+
+/* Close button for the modal */
+.close-btn {
+    color: red;
+    float: right; /* Floats to the right within its container */
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Keyframe animation for the "fadeIn" effect of the modal */
+@keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.9);} /* Starts invisible and slightly smaller */
+    to {opacity: 1; transform: scale(1);} /* Ends fully visible and at full size */
+}
+
+/* Styles for the congratulatory message displayed on game win */
+.message {
+    position: fixed; /* Positions relative to the viewport */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -200%); /* Initially positioned off-screen above center */
+    background: #e0ffe0; /* Light green background */
+    padding: 20px 30px;
+    border-radius: 12px;
+    font-weight: bold;
+    color: green;
+    text-align: center;
+    display: none; /* Hidden by default */
+    z-index: 999; /* Ensures it's above game elements but below modal */
+    font-size: 1em;
+    opacity: 0; /* Starts invisible */
+}
+
+/* Style to make the message visible and trigger its animation */
+.message.show {
+    display: block;
+    animation: flyIn 1s ease-out forwards; /* Applies the fly-in animation */
+}
+
+/* --- Media queries for smaller screens (responsiveness) --- */
+
+/* Styles applied when screen width is 480px or less */
+@media (max-width: 480px) {
+    .game-container {
+        padding: 10px; /* Reduced padding for smaller screens */
+    }
+    .grid.easy {
+        grid-template-columns: repeat(4, minmax(40px, 1fr)); /* Adjusts grid column size */
+    }
+    .grid.hard {
+        grid-template-columns: repeat(6, minmax(35px, 1fr)); /* Adjusts grid column size */
+    }
+    .card-back {
+        font-size: 1.5em; /* Smaller font size for emojis on cards */
+    }
+    .message {
+        font-size: 1.2em; /* Smaller font size for the message */
+        padding: 8px; /* Reduced padding for the message */
+    }
+    .controls {
+        flex-direction: column; /* Controls stack vertically */
+        align-items: center;
+    }
+    .modal-content {
+        width: 90%; /* Wider modal on smaller screens */
+        margin: 20% auto; /* Adjusted vertical margin for modal */
+        padding: 16px;
+        font-size: 0.95em; /* Smaller font for modal content */
+    }
+    .close-btn {
+        font-size: 20px; /* Smaller close button */
+    }
+    #instructions-modal h2 {
+        font-size: 1.2em; /* Smaller heading in instructions */
+    }
+    #instructions-modal ul {
+        padding-left: 20px; /* Adjusted list padding */
+    }
+}
